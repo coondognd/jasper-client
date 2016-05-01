@@ -2,6 +2,7 @@
 import logging
 from notifier import Notifier
 from brain import Brain
+import socket
 
 
 class Conversation(object):
@@ -36,14 +37,26 @@ class Conversation(object):
                 self._logger.info("Nothing has been said or transcribed.")
                 continue
             self._logger.info("Keyword '%s' has been said!", self.persona)
+            
+            
+            try:
+                client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                host = socket.gethostname()
+                client.connect((host, 41384))
+                client.send("go")
+                client.shutdown(socket.SHUT_RDWR)
+                client.close()
+            except Exception as msg:
+                print msg
+ 
 
-            self._logger.debug("Started to listen actively with threshold: %r",
-                               threshold)
-            input = self.mic.activeListenToAllOptions(threshold)
-            self._logger.debug("Stopped to listen actively with threshold: %r",
-                               threshold)
+            ## self._logger.debug("Started to listen actively with threshold: %r",
+            ##                   threshold)
+            ##input = self.mic.activeListenToAllOptions(threshold)
+            ##self._logger.debug("Stopped to listen actively with threshold: %r",
+            ##                   threshold)
 
-            if input:
-                self.brain.query(input)
-            else:
-                self.mic.say("Pardon?")
+            ##if input:
+            ##    self.brain.query(input)
+            ##else:
+            ##    self.mic.say("Pardon?")
