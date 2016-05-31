@@ -3,6 +3,7 @@ import logging
 from notifier import Notifier
 from brain import Brain
 import socket
+import time
 
 
 class Conversation(object):
@@ -48,7 +49,7 @@ class Conversation(object):
                 client.close()
             except Exception as msg:
                 print msg
- 
+            time.sleep(10) 
 
             ## self._logger.debug("Started to listen actively with threshold: %r",
             ##                   threshold)
