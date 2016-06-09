@@ -45,11 +45,14 @@ class Conversation(object):
                 host = socket.gethostname()
                 client.connect((host, 41384))
                 client.send("go")
+                data = s.recv(1024) 
+                s.close() 
+                print 'Received:', data
                 client.shutdown(socket.SHUT_RDWR)
                 client.close()
             except Exception as msg:
                 print msg
-            time.sleep(10) 
+            ##time.sleep(10) 
 
             ## self._logger.debug("Started to listen actively with threshold: %r",
             ##                   threshold)
